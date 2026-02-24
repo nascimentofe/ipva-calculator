@@ -2,8 +2,13 @@ services:
   - type: web
     name: ipva-calculator
     runtime: static
+    repo: https://github.com/nascimentofe/ipva-calculator
+    branch: main
+    autoDeploy: true
     buildCommand: echo "Static site - no build needed"
     staticPublishPath: .
+    domains:
+      - ipva.fsncompany.com.br
     headers:
       - path: /*
         name: X-Frame-Options
