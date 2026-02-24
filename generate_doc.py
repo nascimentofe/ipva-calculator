@@ -333,12 +333,47 @@ doc.add_heading('9. Como Fazer Deploy', level=1)
 deploy_steps = [
     'Fazer push do código para o repositório GitHub: github.com/nascimentofe/ipva-calculator',
     'No Render, criar novo Static Site conectado ao repositório GitHub',
-    'Branch: main | Publish Directory: . (raiz)',
-    'O Render fará deploy automático a cada push no main',
+    'Branch: main | Build Command: chmod +x build.sh && ./build.sh | Publish Directory: . (raiz)',
+    'O Render fará deploy automático a cada push no main (auto-deploy ativado)',
     'Configurar domínio customizado conforme seção 8.2',
 ]
 for s in deploy_steps:
     doc.add_paragraph(s, style='List Number')
+
+doc.add_paragraph()
+
+# --- 9.1. Environment Variables ---
+doc.add_heading('9.1. Environment Variables (Render)', level=2)
+doc.add_paragraph(
+    'Os IDs de serviços externos são injetados via Environment Variables no Render, '
+    'evitando que dados sensíveis fiquem commitados no código. O script build.sh substitui '
+    'os placeholders durante o build.'
+)
+env_vars = [
+    ('GA_MEASUREMENT_ID', 'ID do Google Analytics 4', 'Ex: G-A1B2C3D4E5'),
+    ('CLARITY_ID', 'ID do Microsoft Clarity', 'Ex: abc123xyz'),
+    ('ADSENSE_PUB_ID', 'Publisher ID do Google AdSense', 'Ex: ca-pub-1234567890123456'),
+    ('AD_SLOT_TOP', 'Slot ID do anúncio do topo', 'Ex: 1234567890'),
+    ('AD_SLOT_LEFT', 'Slot ID do anúncio lateral esquerdo', 'Ex: 1234567891'),
+    ('AD_SLOT_RIGHT', 'Slot ID do anúncio lateral direito', 'Ex: 1234567892'),
+    ('AD_SLOT_IN_ARTICLE', 'Slot ID do anúncio in-article', 'Ex: 1234567893'),
+    ('AD_SLOT_BOTTOM', 'Slot ID do anúncio do rodapé', 'Ex: 1234567894'),
+]
+t_env = doc.add_table(rows=len(env_vars) + 1, cols=3)
+t_env.style = 'Light Grid Accent 1'
+t_env.alignment = WD_TABLE_ALIGNMENT.CENTER
+t_env.rows[0].cells[0].text = 'Variável'
+t_env.rows[0].cells[1].text = 'Descrição'
+t_env.rows[0].cells[2].text = 'Exemplo'
+for i, (var, desc, ex) in enumerate(env_vars, 1):
+    t_env.rows[i].cells[0].text = var
+    t_env.rows[i].cells[1].text = desc
+    t_env.rows[i].cells[2].text = ex
+
+doc.add_paragraph(
+    'Para configurar: Render Dashboard → Service → Environment → Add Environment Variable. '
+    'Após adicionar ou alterar uma variável, clique em "Manual Deploy" para aplicar.'
+)
 
 doc.add_paragraph()
 

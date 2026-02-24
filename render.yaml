@@ -5,8 +5,25 @@ services:
     repo: https://github.com/nascimentofe/ipva-calculator
     branch: main
     autoDeploy: true
-    buildCommand: echo "Static site - no build needed"
+    buildCommand: chmod +x build.sh && ./build.sh
     staticPublishPath: .
+    envVars:
+      - key: GA_MEASUREMENT_ID
+        sync: false
+      - key: CLARITY_ID
+        sync: false
+      - key: ADSENSE_PUB_ID
+        sync: false
+      - key: AD_SLOT_TOP
+        sync: false
+      - key: AD_SLOT_LEFT
+        sync: false
+      - key: AD_SLOT_RIGHT
+        sync: false
+      - key: AD_SLOT_IN_ARTICLE
+        sync: false
+      - key: AD_SLOT_BOTTOM
+        sync: false
     domains:
       - ipva.fsncompany.com.br
     headers:
