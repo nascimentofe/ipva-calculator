@@ -217,13 +217,13 @@
         const shareText = `Calculei minha economia com a PEC do IPVA!\n` +
             `Economia anual: ${economiaEl.textContent}\n` +
             `Economia em 5 anos: ${economia5El.textContent}\n` +
-            `Calcule a sua: https://ipva.novocalculo.com.br`;
+            `Calcule a sua: https://ipva.fsncompany.com.br`;
 
         if (navigator.share) {
             navigator.share({
                 title: 'Calculadora do Novo IPVA',
                 text: shareText,
-                url: 'https://ipva.novocalculo.com.br'
+                url: 'https://ipva.fsncompany.com.br'
             }).catch(() => {});
         } else {
             navigator.clipboard.writeText(shareText).then(() => {
@@ -243,6 +243,62 @@
         });
     });
 
+    // --- Cookie Consent (LGPD) ---
+    var cookieBanner = document.getElementById('cookie-consent');
+    var btnAccept = document.getElementById('cookie-accept');
+    var btnReject = document.getElementById('cookie-reject');
+
+    function getCookieConsent() {
+        return localStorage.getItem('cookie_consent');
+    }
+
+    function setCookieConsent(value) {
+        localStorage.setItem('cookie_consent', value);
+        localStorage.setItem('cookie_consent_date', new Date().toISOString());
+    }
+
+    function showCookieBanner() {
+        if (!getCookieConsent()) {
+            cookieBanner.classList.remove('hidden');
+        }
+    }
+
+    function handleConsent(accepted) {
+        setCookieConsent(accepted ? 'accepted' : 'rejected');
+        cookieBanner.classList.add('hidden');
+        trackEvent('cookie_consent', { accepted: accepted });
+
+        if (accepted) {
+            enablePersonalizedAds();
+        } else {
+            disablePersonalizedAds();
+        }
+    }
+
+    function enablePersonalizedAds() {
+        if (typeof adsbygoogle !== 'undefined') {
+            adsbygoogle.requestNonPersonalizedAds = 0;
+        }
+    }
+
+    function disablePersonalizedAds() {
+        if (typeof adsbygoogle !== 'undefined') {
+            adsbygoogle.requestNonPersonalizedAds = 1;
+        }
+    }
+
+    if (btnAccept) {
+        btnAccept.addEventListener('click', function () { handleConsent(true); });
+    }
+    if (btnReject) {
+        btnReject.addEventListener('click', function () { handleConsent(false); });
+    }
+
+    var consent = getCookieConsent();
+    if (consent === 'rejected') {
+        disablePersonalizedAds();
+    }
+
     // --- Track Page View ---
     trackEvent('page_view', {
         page_title: document.title,
@@ -252,5 +308,6 @@
     // --- Init ---
     populateStates();
     applyCurrencyMask(valorFipeInput);
+    showCookieBanner();
 
 })();
