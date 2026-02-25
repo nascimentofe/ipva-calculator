@@ -177,69 +177,46 @@
         </aside>
 
         <main class="main-content">
-            <!-- Hero -->
-            <header class="hero">
-                <div class="hero-badge">PEC do IPVA</div>
-                <h1>Calculadora do <span class="gradient-text">Novo IPVA 2026</span></h1>
-                <p class="hero-subtitle">Simule grátis quanto você vai economizar no IPVA do seu veículo com o teto de 1% proposto pela PEC. Cálculo baseado na Tabela FIPE e nas alíquotas oficiais de todos os 27 estados brasileiros.</p>
-            </header>
-
-            <!-- Info Cards -->
-            <section class="info-cards">
-                <div class="info-card">
-                    <div class="info-icon">📉</div>
-                    <h3>Teto de 1%</h3>
-                    <p>Garantia de que o IPVA nunca ultrapassará 1% do valor do veículo.</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">⚖️</div>
-                    <h3>Cálculo por Peso</h3>
-                    <p>Justiça tributária: veículos mais leves pagam proporcionalmente menos.</p>
-                </div>
-                <div class="info-card">
-                    <div class="info-icon">💰</div>
-                    <h3>Economia Real</h3>
-                    <p>Mais dinheiro no seu bolso através do corte de privilégios.</p>
-                </div>
-            </section>
-
-            <!-- Calculator Form -->
-            <section class="calculator" id="calculadora">
-                <div class="calculator-header">
-                    <h2>Calcular IPVA — Quanto você vai <span class="gradient-text">economizar?</span></h2>
-                    <p>Informe seu estado e o valor FIPE do veículo para simular o novo IPVA e a economia real com a aprovação da PEC.</p>
-                    <div class="trust-badges">
-                        <span class="badge">✓ Alíquotas oficiais atualizadas</span>
-                        <span class="badge">✓ Cálculo baseado no teto de 1%</span>
-                        <span class="badge">✓ Projeção de economia anual</span>
-                    </div>
-                </div>
+            <!-- Hero + Form: above the fold -->
+            <section class="hero-form" id="calculadora">
+                <header class="hero-compact">
+                    <div class="hero-badge">PEC do IPVA 2026</div>
+                    <h1>Calculadora do <span class="gradient-text">Novo IPVA</span></h1>
+                    <p class="hero-tagline">Descubra quanto você vai economizar com o teto de 1%</p>
+                </header>
 
                 <form id="ipva-form" class="calculator-form">
-                    <div class="form-group">
-                        <label for="estado">Estado</label>
-                        <select id="estado" required>
-                            <option value="">Selecione seu estado</option>
-                        </select>
-                        <span class="aliquota-info" id="aliquota-info"></span>
-                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="estado">Estado</label>
+                            <select id="estado" required>
+                                <option value="">Selecione seu estado</option>
+                            </select>
+                            <span class="aliquota-info" id="aliquota-info"></span>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="valor-fipe">Valor FIPE do Veículo (R$)</label>
-                        <input type="text" id="valor-fipe" placeholder="Ex: 80.000,00" required inputmode="numeric">
-                        <span class="input-hint">Consulte o valor na <a href="https://veiculos.fipe.org.br/" target="_blank" rel="noopener">Tabela FIPE</a></span>
-                    </div>
+                        <div class="form-group">
+                            <label for="valor-fipe">Valor FIPE (R$)</label>
+                            <input type="text" id="valor-fipe" placeholder="Ex: 80.000,00" required inputmode="numeric">
+                            <span class="input-hint">Consulte na <a href="https://veiculos.fipe.org.br/" target="_blank" rel="noopener">Tabela FIPE</a></span>
+                        </div>
 
-                    <div class="form-group">
-                        <label for="peso-veiculo">Peso do Veículo (kg) <span class="optional">(opcional)</span></label>
-                        <input type="number" id="peso-veiculo" placeholder="Ex: 1200" min="0" max="50000" step="1">
-                        <span class="input-hint">O peso pode influenciar o cálculo no novo modelo</span>
+                        <div class="form-group">
+                            <label for="peso-veiculo">Peso (kg) <span class="optional">opcional</span></label>
+                            <input type="number" id="peso-veiculo" placeholder="Ex: 1200" min="0" max="50000" step="1">
+                        </div>
                     </div>
 
                     <button type="submit" class="btn-calcular" id="btn-calcular">
                         <span class="btn-text">Calcular Economia</span>
                         <span class="btn-icon">→</span>
                     </button>
+
+                    <div class="trust-badges">
+                        <span class="badge">✓ Alíquotas oficiais</span>
+                        <span class="badge">✓ Teto de 1%</span>
+                        <span class="badge">✓ 27 estados</span>
+                    </div>
                 </form>
             </section>
 
@@ -296,6 +273,25 @@
 
                 <div class="disclaimer">
                     <p><strong>Aviso:</strong> Os valores apresentados são projeções baseadas na PEC que propõe teto de 1% para o IPVA. A aprovação e implementação dependem do processo legislativo. As alíquotas utilizadas são referentes a veículos de passeio e podem variar conforme o tipo de veículo.</p>
+                </div>
+            </section>
+
+            <!-- Info Cards -->
+            <section class="info-cards">
+                <div class="info-card">
+                    <div class="info-icon">📉</div>
+                    <h3>Teto de 1%</h3>
+                    <p>Garantia de que o IPVA nunca ultrapassará 1% do valor do veículo.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">⚖️</div>
+                    <h3>Cálculo por Peso</h3>
+                    <p>Justiça tributária: veículos mais leves pagam proporcionalmente menos.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">💰</div>
+                    <h3>Economia Real</h3>
+                    <p>Mais dinheiro no seu bolso através do corte de privilégios.</p>
                 </div>
             </section>
 
