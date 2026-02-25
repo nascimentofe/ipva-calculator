@@ -1,12 +1,10 @@
 #!/bin/bash
-# Build script - substitui placeholders pelas Environment Variables do Render
-
 set -e
 
 echo ">> Iniciando build..."
 
-HTML="public/index.html"
-ADS="public/ads.txt"
+HTML="index.html"
+ADS="ads.txt"
 
 if [ -n "$GA_MEASUREMENT_ID" ]; then
     sed -i.bak "s/G-XXXXXXXXXX/$GA_MEASUREMENT_ID/g" "$HTML"
@@ -56,6 +54,6 @@ if [ -n "$AD_SLOT_BOTTOM" ]; then
     echo "   ✓ Ad Slot Bottom: $AD_SLOT_BOTTOM"
 fi
 
-find public -name "*.bak" -delete 2>/dev/null || true
+find . -maxdepth 1 -name "*.bak" -delete 2>/dev/null || true
 
 echo ">> Build concluído!"
