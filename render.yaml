@@ -6,7 +6,7 @@ services:
     branch: main
     autoDeploy: true
     buildCommand: chmod +x build.sh && ./build.sh
-    staticPublishPath: .
+    staticPublishPath: public
     envVars:
       - key: GA_MEASUREMENT_ID
         sync: false
@@ -36,10 +36,13 @@ services:
       - path: /*
         name: Referrer-Policy
         value: strict-origin-when-cross-origin
-      - path: /style.css
+      - path: /css/*
         name: Cache-Control
         value: public, max-age=86400
-      - path: /script.js
+      - path: /js/*
+        name: Cache-Control
+        value: public, max-age=86400
+      - path: /assets/*
         name: Cache-Control
         value: public, max-age=86400
     routes:
