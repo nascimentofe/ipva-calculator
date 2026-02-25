@@ -433,8 +433,86 @@ for s in next_seo:
 
 doc.add_paragraph()
 
-# --- 11. Sobre a PEC ---
-doc.add_heading('11. Sobre a PEC do IPVA', level=1)
+# --- 11. Estratégia de Marketing e Divulgação ---
+doc.add_heading('11. Estratégia de Marketing e Divulgação', level=1)
+
+doc.add_heading('11.1. Materiais Criados', level=2)
+doc.add_paragraph(
+    'Os materiais de divulgação estão na pasta /marketing/ do projeto:'
+)
+materiais = [
+    ('story-1-economia.png', 'Story: "Você paga IPVA demais" com comparação de valores'),
+    ('story-2-porcentagem.png', 'Story: "75% de economia" com dados por estado'),
+    ('story-3-formulario.png', 'Story: Mockup da calculadora com resultado'),
+    ('story-4-urgencia.png', 'Story: "O IPVA vai mudar" com urgência e CTA'),
+    ('feed-1-comparacao.png', 'Feed: Barra comparativa 4% → 1% com economia'),
+    ('feed-2-estados.png', 'Feed: Infográfico de alíquotas por estado'),
+    ('COPIES_E_ESTRATEGIA.md', 'Textos prontos para legendas, stories e outros canais'),
+]
+t_mat = doc.add_table(rows=len(materiais) + 1, cols=2)
+t_mat.style = 'Light Grid Accent 1'
+t_mat.alignment = WD_TABLE_ALIGNMENT.CENTER
+t_mat.rows[0].cells[0].text = 'Arquivo'
+t_mat.rows[0].cells[1].text = 'Descrição'
+for i, (arq, desc) in enumerate(materiais, 1):
+    t_mat.rows[i].cells[0].text = arq
+    t_mat.rows[i].cells[1].text = desc
+
+doc.add_heading('11.2. Canais de Divulgação', level=2)
+canais = [
+    ('Instagram (Stories + Feed + Reels)', 'Canal principal. Stories com enquetes e quizzes, posts informativos, Reels mostrando a calculadora'),
+    ('TikTok', 'Repost dos Reels. Trends como "POV: você descobre que paga 4% de IPVA"'),
+    ('Twitter/X', 'Posts com dados e link. Responder threads sobre impostos'),
+    ('WhatsApp', 'Mensagens shareáveis para grupos de carros e financeiro'),
+    ('Reddit / Fóruns', 'Posts em r/brasil, r/investimentos, fóruns automotivos'),
+]
+for canal, desc in canais:
+    p = doc.add_paragraph(style='List Bullet')
+    run = p.add_run(canal + ': ')
+    run.bold = True
+    p.add_run(desc)
+
+doc.add_heading('11.3. Monetização — Tipos de Ads por Receita', level=2)
+doc.add_paragraph(
+    'Formatos de anúncio ordenados por CPM (receita por mil impressões):'
+)
+ads_rev = [
+    ('In-Article (Fluid)', 'R$ 8-25 CPM', 'Entre resultado e FAQ — maior receita'),
+    ('Leaderboard Top', 'R$ 5-15 CPM', 'Topo da página — alta visibilidade'),
+    ('Skyscraper Lateral', 'R$ 3-10 CPM', 'Laterais desktop — complementar'),
+    ('Leaderboard Bottom', 'R$ 2-8 CPM', 'Rodapé — menor engajamento'),
+]
+t_rev = doc.add_table(rows=len(ads_rev) + 1, cols=3)
+t_rev.style = 'Light Grid Accent 1'
+t_rev.alignment = WD_TABLE_ALIGNMENT.CENTER
+t_rev.rows[0].cells[0].text = 'Formato'
+t_rev.rows[0].cells[1].text = 'CPM Médio'
+t_rev.rows[0].cells[2].text = 'Posição'
+for i, (fmt, cpm, pos) in enumerate(ads_rev, 1):
+    t_rev.rows[i].cells[0].text = fmt
+    t_rev.rows[i].cells[1].text = cpm
+    t_rev.rows[i].cells[2].text = pos
+
+doc.add_heading('11.4. Estimativa de Receita Mensal', level=2)
+receita = [
+    ('1.000 visitas/dia', 'R$ 30-80/mês (AdSense)'),
+    ('5.000 visitas/dia', 'R$ 150-400/mês (AdSense) | R$ 400-1.000 (Mediavine)'),
+    ('10.000 visitas/dia', 'R$ 300-900/mês (AdSense) | R$ 900-2.500 (Mediavine)'),
+    ('50.000 visitas/dia', 'R$ 1.500-5.000/mês (AdSense) | R$ 5.000-15.000 (Mediavine)'),
+]
+t_rec = doc.add_table(rows=len(receita) + 1, cols=2)
+t_rec.style = 'Light Grid Accent 1'
+t_rec.alignment = WD_TABLE_ALIGNMENT.CENTER
+t_rec.rows[0].cells[0].text = 'Tráfego'
+t_rec.rows[0].cells[1].text = 'Receita Estimada'
+for i, (traf, rec) in enumerate(receita, 1):
+    t_rec.rows[i].cells[0].text = traf
+    t_rec.rows[i].cells[1].text = rec
+
+doc.add_paragraph()
+
+# --- 12. Sobre a PEC ---
+doc.add_heading('12. Sobre a PEC do IPVA', level=1)
 doc.add_paragraph(
     'A PEC (Proposta de Emenda à Constituição) propõe as seguintes mudanças no IPVA:'
 )
