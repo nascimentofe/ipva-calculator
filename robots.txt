@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /generate_doc.py
+
+Sitemap: https://ipva.fsncompany.com.br/sitemap.xml

@@ -377,8 +377,64 @@ doc.add_paragraph(
 
 doc.add_paragraph()
 
-# --- 10. Sobre a PEC ---
-doc.add_heading('10. Sobre a PEC do IPVA', level=1)
+# --- 10. SEO ---
+doc.add_heading('10. SEO (Otimização para Mecanismos de Busca)', level=1)
+doc.add_paragraph(
+    'O site foi otimizado para posicionar nas primeiras posições do Google para buscas '
+    'como "calculadora IPVA", "novo IPVA", "calcular IPVA 2026" e termos relacionados.'
+)
+
+doc.add_heading('10.1. Keywords Alvo', level=2)
+keywords = [
+    'calculadora IPVA / calculadora IPVA 2026',
+    'calcular IPVA / calcular IPVA do meu carro',
+    'novo IPVA / PEC IPVA / teto 1% IPVA',
+    'simulador IPVA / simular IPVA',
+    'alíquota IPVA por estado',
+    'quanto vou pagar de IPVA / valor IPVA',
+    'IPVA mais barato / economia IPVA',
+    'tabela FIPE IPVA',
+]
+for kw in keywords:
+    doc.add_paragraph(kw, style='List Bullet')
+
+doc.add_heading('10.2. Técnicas Implementadas', level=2)
+seo_techs = [
+    ('Structured Data (JSON-LD)', 'Schema WebApplication, FAQPage e BreadcrumbList para rich snippets no Google'),
+    ('Title Tag Otimizado', '"Calculadora IPVA 2026 — Simule o Novo IPVA com Teto de 1% | Todos os Estados" (60 chars, keyword-first)'),
+    ('Meta Description', '160 chars com CTA, keywords primárias e diferencial (grátis, todos estados)'),
+    ('Heading Hierarchy', 'H1 com keyword principal, H2s com variações, H3s com long-tail'),
+    ('Conteúdo Informativo', 'Seção com tabela de alíquotas por estado, explicação de cálculo e mudanças da PEC'),
+    ('FAQ Expandido', '8 perguntas cobrindo as principais buscas relacionadas ao IPVA'),
+    ('Open Graph + Twitter Cards', 'Imagem OG 1200x630px para compartilhamento em redes sociais'),
+    ('Sitemap.xml', 'Mapa do site para indexação rápida pelo Google'),
+    ('Robots.txt', 'Permite indexação total com referência ao sitemap'),
+    ('Canonical URL', 'Evita conteúdo duplicado: https://ipva.fsncompany.com.br'),
+    ('Favicon SVG', 'Ícone vetorial para abas do navegador e bookmarks'),
+    ('Semantic HTML', 'Tags header, main, section, footer, details para acessibilidade e SEO'),
+]
+for tech, desc in seo_techs:
+    p = doc.add_paragraph(style='List Bullet')
+    run = p.add_run(tech + ': ')
+    run.bold = True
+    p.add_run(desc)
+
+doc.add_heading('10.3. Próximos Passos para SEO', level=2)
+next_seo = [
+    'Cadastrar o site no Google Search Console (search.google.com/search-console)',
+    'Submeter o sitemap.xml pelo Search Console',
+    'Cadastrar no Google Analytics 4 para acompanhar tráfego orgânico',
+    'Criar conteúdo complementar (blog posts sobre IPVA, dicas de economia)',
+    'Buscar backlinks em sites de notícias automotivas e financeiras',
+    'Monitorar posições com Google Search Console → Performance',
+]
+for s in next_seo:
+    doc.add_paragraph(s, style='List Number')
+
+doc.add_paragraph()
+
+# --- 11. Sobre a PEC ---
+doc.add_heading('11. Sobre a PEC do IPVA', level=1)
 doc.add_paragraph(
     'A PEC (Proposta de Emenda à Constituição) propõe as seguintes mudanças no IPVA:'
 )

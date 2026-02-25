@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#2563eb"/>
+  <text x="32" y="26" text-anchor="middle" fill="white" font-family="Inter,system-ui,sans-serif" font-size="12" font-weight="800">IPVA</text>
+  <text x="32" y="46" text-anchor="middle" fill="#10b981" font-family="Inter,system-ui,sans-serif" font-size="18" font-weight="900">1%</text>
+</svg>
