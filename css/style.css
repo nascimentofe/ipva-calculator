@@ -188,9 +188,8 @@ body {
 
 .form-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 140px;
     gap: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
 }
 
 .form-group {
@@ -278,6 +277,99 @@ body {
 
 .input-hint a:hover {
     text-decoration: underline;
+}
+
+/* ===========================
+   Form: 2-col row
+   =========================== */
+.form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+/* ===========================
+   FIPE Lookup Section
+   =========================== */
+.fipe-lookup,
+.manual-input {
+    margin-bottom: 20px;
+}
+
+.fipe-lookup.hidden,
+.manual-input.hidden {
+    display: none;
+}
+
+.fipe-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.fipe-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #e2e8f0;
+    letter-spacing: 0.02em;
+}
+
+.fipe-toggle {
+    background: none;
+    border: 1px solid #475569;
+    color: #60a5fa;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.fipe-toggle:hover {
+    background: rgba(96, 165, 250, 0.1);
+    border-color: #60a5fa;
+}
+
+.fipe-result {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(16,185,129,0.05));
+    border: 1px solid rgba(16,185,129,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+}
+
+.fipe-result.hidden {
+    display: none;
+}
+
+.fipe-result-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: #34d399;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.fipe-result-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #34d399;
+}
+
+.fipe-result-ref {
+    font-size: 0.7rem;
+    color: #64748b;
+    flex-basis: 100%;
+    margin-top: -4px;
 }
 
 /* ===========================
@@ -1034,9 +1126,10 @@ body {
         font-size: 0.85rem;
     }
 
-    .form-row {
+    .form-row,
+    .form-row-2col {
         grid-template-columns: 1fr;
-        gap: 14px;
+        gap: 12px;
     }
 
     .info-cards {
