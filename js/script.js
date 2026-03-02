@@ -36,6 +36,138 @@
     var NOVO_TETO = 1.0;
     var fipeBrandsLoaded = false;
 
+    // =============================================
+    // Weight estimation by model name / segment
+    // =============================================
+    // Ordered from most specific (model name) to generic (segment keywords).
+    // Each rule: { patterns: [regex], weight: avg kg }
+    var WEIGHT_RULES = [
+        // -- Motos (handled separately by vehicleType, but include popular ones) --
+
+        // -- Pickups grandes --
+        { p: [/AMAROK/i], w: 2100 },
+        { p: [/HILUX/i], w: 2100 },
+        { p: [/\bS10\b|S-10/i], w: 2000 },
+        { p: [/RANGER/i], w: 2100 },
+        { p: [/\bRAM\b/i], w: 2500 },
+        { p: [/FRONTIER/i], w: 2000 },
+        { p: [/TRITON|L200/i], w: 2050 },
+
+        // -- Pickups medias --
+        { p: [/TORO/i], w: 1550 },
+        { p: [/OROCH/i], w: 1400 },
+        { p: [/MONTANA/i], w: 1350 },
+        { p: [/STRADA/i], w: 1200 },
+        { p: [/SAVEIRO/i], w: 1150 },
+
+        // -- SUVs grandes --
+        { p: [/SW4|FORTUNER/i], w: 2100 },
+        { p: [/TRAILBLAZER/i], w: 2050 },
+        { p: [/COMMANDER/i], w: 1850 },
+        { p: [/PAJERO SPORT/i], w: 2100 },
+        { p: [/LAND CRUISER/i], w: 2300 },
+        { p: [/DEFENDER/i], w: 2200 },
+
+        // -- SUVs medios --
+        { p: [/COMPASS/i], w: 1550 },
+        { p: [/TUCSON/i], w: 1550 },
+        { p: [/RAV\s?4|RAV4/i], w: 1600 },
+        { p: [/TIGUAN/i], w: 1650 },
+        { p: [/SPORTAGE/i], w: 1550 },
+        { p: [/OUTLANDER/i], w: 1650 },
+        { p: [/COROLLA CROSS/i], w: 1500 },
+        { p: [/TAOS/i], w: 1500 },
+        { p: [/EQUINOX/i], w: 1600 },
+        { p: [/TERRITORY/i], w: 1600 },
+        { p: [/TIGGO\s?[78]/i], w: 1600 },
+        { p: [/WRANGLER/i], w: 1900 },
+
+        // -- SUVs compactos --
+        { p: [/TRACKER/i], w: 1280 },
+        { p: [/CRETA/i], w: 1270 },
+        { p: [/T-CROSS|TCROSS/i], w: 1280 },
+        { p: [/RENEGADE/i], w: 1350 },
+        { p: [/KICKS/i], w: 1260 },
+        { p: [/HR-V|HRV/i], w: 1350 },
+        { p: [/\bZS\b/i], w: 1280 },
+        { p: [/PULSE/i], w: 1200 },
+        { p: [/NIVUS/i], w: 1250 },
+        { p: [/DUSTER/i], w: 1350 },
+        { p: [/CAPTUR/i], w: 1300 },
+        { p: [/ECOSPORT/i], w: 1300 },
+        { p: [/TIGGO\s?[35]/i], w: 1350 },
+        { p: [/SELTOS/i], w: 1350 },
+
+        // -- Sedans medios --
+        { p: [/COROLLA(?!.*CROSS)/i], w: 1370 },
+        { p: [/CIVIC/i], w: 1380 },
+        { p: [/SENTRA/i], w: 1330 },
+        { p: [/CRUZE/i], w: 1370 },
+        { p: [/JETTA/i], w: 1400 },
+        { p: [/ACCORD/i], w: 1500 },
+        { p: [/CAMRY/i], w: 1550 },
+        { p: [/CERATO/i], w: 1310 },
+
+        // -- Sedans compactos --
+        { p: [/ONIX.*PLUS|ONIX.*SEDAN|ONIX.*LTZ.*SED/i], w: 1180 },
+        { p: [/HB20S/i], w: 1150 },
+        { p: [/VIRTUS/i], w: 1200 },
+        { p: [/CRONOS/i], w: 1150 },
+        { p: [/VOYAGE/i], w: 1100 },
+        { p: [/CITY/i], w: 1200 },
+        { p: [/VERSA/i], w: 1150 },
+        { p: [/COBALT/i], w: 1200 },
+
+        // -- Hatches compactos --
+        { p: [/ONIX(?!.*PLUS)(?!.*SEDAN)/i], w: 1100 },
+        { p: [/HB20(?!S)/i], w: 1080 },
+        { p: [/\bPOLO\b/i], w: 1150 },
+        { p: [/\bARGO\b/i], w: 1050 },
+        { p: [/\bGOL\b/i], w: 1050 },
+        { p: [/MOBI/i], w: 940 },
+        { p: [/KWID/i], w: 950 },
+        { p: [/\bUP\b/i], w: 960 },
+        { p: [/SANDERO/i], w: 1080 },
+        { p: [/KA\b|KA\+/i], w: 1050 },
+        { p: [/MARCH/i], w: 1010 },
+        { p: [/\bFIT\b/i], w: 1100 },
+        { p: [/GOLF/i], w: 1300 },
+
+        // -- Minivans / Utilitarios --
+        { p: [/SPIN/i], w: 1350 },
+        { p: [/ZAFIRA/i], w: 1450 },
+        { p: [/KANGOO/i], w: 1350 },
+        { p: [/DOBLO/i], w: 1400 },
+        { p: [/MASTER|SPRINTER|DUCATO/i], w: 2400 },
+
+        // -- Esportivos / Luxo --
+        { p: [/MUSTANG/i], w: 1750 },
+        { p: [/CAMARO/i], w: 1700 },
+        { p: [/\bBMW\b.*[3-8]\d{2}/i], w: 1600 },
+        { p: [/MERCEDES|BENZ/i], w: 1650 },
+        { p: [/AUDI.*[AQ]\d/i], w: 1600 },
+
+        // -- Generic segment fallbacks (keyword-based) --
+        { p: [/PICKUP|CABINE DUPLA|CAB.*DUP|CD\s?\d/i], w: 1800 },
+        { p: [/\bSUV\b/i], w: 1450 },
+        { p: [/SEDAN|SD\b/i], w: 1250 },
+        { p: [/HATCH|HB\b/i], w: 1100 }
+    ];
+
+    function estimateWeight(vehicleType, modelName) {
+        if (vehicleType === 'motorcycles') return 180;
+        if (vehicleType === 'trucks') return 7000;
+
+        var name = (modelName || '').toUpperCase();
+        for (var i = 0; i < WEIGHT_RULES.length; i++) {
+            var rule = WEIGHT_RULES[i];
+            for (var j = 0; j < rule.p.length; j++) {
+                if (rule.p[j].test(name)) return rule.w;
+            }
+        }
+        return 1300;
+    }
+
     function trackEvent(eventName, params) {
         if (typeof gtag === 'function') gtag('event', eventName, params);
         if (typeof clarity === 'function') clarity('set', eventName, JSON.stringify(params || {}));
@@ -213,9 +345,13 @@
             valorFipeInput.value = formatAsCurrencyString(price);
             valorFipeInput.dispatchEvent(new Event('input', { bubbles: true }));
 
+            var estimatedWeight = estimateWeight(fipeTipo.value, data.model);
+            applyWeightEstimate(estimatedWeight, data.model);
+
             trackEvent('fipe_price_loaded', {
                 brand: data.brand, model: data.model,
-                year: data.modelYear, price: price, fipe_code: data.codeFipe
+                year: data.modelYear, price: price, fipe_code: data.codeFipe,
+                estimated_weight: estimatedWeight
             });
         } catch (e) {
             fipeValor.textContent = 'Erro na consulta';
@@ -234,6 +370,19 @@
     fipeMarca.addEventListener('change', loadModels);
     fipeModelo.addEventListener('change', loadYears);
     fipeAno.addEventListener('change', loadPrice);
+
+    // --- Weight auto-fill ---
+    var pesoDetails = document.querySelector('.peso-details');
+    var pesoHint = document.getElementById('peso-hint');
+
+    function applyWeightEstimate(weight, modelName) {
+        pesoInput.value = weight;
+        if (pesoDetails && !pesoDetails.open) pesoDetails.open = true;
+        if (pesoHint) {
+            pesoHint.textContent = 'Peso médio estimado para ' + modelName.split(' ').slice(0, 3).join(' ') + '. Ajuste se necessário.';
+            pesoHint.classList.remove('hidden');
+        }
+    }
 
     // --- Calculate ---
     function calculate(uf, valorFipe, peso) {

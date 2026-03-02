@@ -260,6 +260,22 @@ body {
     text-decoration: underline;
 }
 
+.peso-estimate-hint {
+    display: block;
+    font-size: 0.75rem;
+    font-style: italic;
+    color: #22c55e;
+    margin-top: 6px;
+    padding: 6px 10px;
+    background: rgba(34, 197, 94, 0.08);
+    border-left: 3px solid #22c55e;
+    border-radius: 4px;
+}
+
+.peso-estimate-hint.hidden {
+    display: none;
+}
+
 /* ===========================
    FIPE Expandable Section
    =========================== */
