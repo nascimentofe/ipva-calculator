@@ -47,11 +47,16 @@ body {
    Ad Slots
    =========================== */
 .ad-slot {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
-    background: #f1f5f9;
-    border: 1px dashed var(--border);
+    overflow: hidden;
+}
+
+.ad-slot.ad-loaded {
+    display: flex;
+    background: #f8fafc;
+    border-radius: var(--radius);
 }
 
 .ad-top, .ad-bottom {
@@ -825,9 +830,7 @@ body {
     border-radius: var(--radius);
 }
 
-.ad-in-article .adsbygoogle { width: 100%; }
-.ad-slot .adsbygoogle { display: block; }
-.ad-slot ins { background: transparent; }
+.ad-in-article > div { width: 100%; }
 
 /* ===========================
    FAQ
@@ -1170,7 +1173,7 @@ body {
    Large Desktop (with side ads)
    =========================== */
 @media (min-width: 1200px) {
-    .ad-side {
+    .ad-side.ad-loaded {
         display: flex;
     }
 

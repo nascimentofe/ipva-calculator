@@ -29,30 +29,30 @@ else
     echo "   ⚠ ADSENSE_PUB_ID não definida (ads desativados)"
 fi
 
-if [ -n "$AD_SLOT_TOP" ]; then
-    sed -i.bak "s/TOP_AD_SLOT_ID/$AD_SLOT_TOP/g" "$HTML"
-    echo "   ✓ Ad Slot Top: $AD_SLOT_TOP"
+# ---- Adsterra Native Banners (CPM) ----
+# Each zone needs two env vars:
+#   ADSTERRA_<ZONE>_SRC = full script URL (e.g. //pl12345.profitableratecpm.com/hash/invoke.js)
+#   ADSTERRA_<ZONE>_ID  = container div id (e.g. container-hash)
+# Zones: TOP, ARTICLE, BOTTOM, LEFT, RIGHT
+
+AD_PROVIDER="none"
+if [ -n "$ADSTERRA_TOP_SRC" ] || [ -n "$ADSTERRA_ARTICLE_SRC" ] || [ -n "$ADSTERRA_BOTTOM_SRC" ]; then
+    AD_PROVIDER="adsterra"
 fi
 
-if [ -n "$AD_SLOT_LEFT" ]; then
-    sed -i.bak "s/LEFT_AD_SLOT_ID/$AD_SLOT_LEFT/g" "$HTML"
-    echo "   ✓ Ad Slot Left: $AD_SLOT_LEFT"
-fi
-
-if [ -n "$AD_SLOT_RIGHT" ]; then
-    sed -i.bak "s/RIGHT_AD_SLOT_ID/$AD_SLOT_RIGHT/g" "$HTML"
-    echo "   ✓ Ad Slot Right: $AD_SLOT_RIGHT"
-fi
-
-if [ -n "$AD_SLOT_IN_ARTICLE" ]; then
-    sed -i.bak "s/IN_ARTICLE_AD_SLOT_ID/$AD_SLOT_IN_ARTICLE/g" "$HTML"
-    echo "   ✓ Ad Slot In-Article: $AD_SLOT_IN_ARTICLE"
-fi
-
-if [ -n "$AD_SLOT_BOTTOM" ]; then
-    sed -i.bak "s/BOTTOM_AD_SLOT_ID/$AD_SLOT_BOTTOM/g" "$HTML"
-    echo "   ✓ Ad Slot Bottom: $AD_SLOT_BOTTOM"
-fi
+cat > js/ads-config.js << ADEOF
+window.ADS_CONFIG = {
+    provider: "${AD_PROVIDER}",
+    adsterra: {
+        top:       { src: "${ADSTERRA_TOP_SRC:-}", containerId: "${ADSTERRA_TOP_ID:-}" },
+        inArticle: { src: "${ADSTERRA_ARTICLE_SRC:-}", containerId: "${ADSTERRA_ARTICLE_ID:-}" },
+        bottom:    { src: "${ADSTERRA_BOTTOM_SRC:-}", containerId: "${ADSTERRA_BOTTOM_ID:-}" },
+        left:      { src: "${ADSTERRA_LEFT_SRC:-}", containerId: "${ADSTERRA_LEFT_ID:-}" },
+        right:     { src: "${ADSTERRA_RIGHT_SRC:-}", containerId: "${ADSTERRA_RIGHT_ID:-}" }
+    }
+};
+ADEOF
+echo "   ✓ Ads config gerado (provider: $AD_PROVIDER)"
 
 find . -maxdepth 1 -name "*.bak" -delete 2>/dev/null || true
 

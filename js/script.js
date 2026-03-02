@@ -503,8 +503,46 @@
 
     trackEvent('page_view', { page_title: document.title, timestamp: new Date().toISOString() });
 
+    // --- Dynamic Ad Loader ---
+    function loadAds() {
+        var cfg = window.ADS_CONFIG;
+        if (!cfg || cfg.provider === 'none') return;
+
+        var slotMap = {
+            top:       'ad-top',
+            inArticle: 'ad-in-article',
+            bottom:    'ad-bottom',
+            left:      'ad-left',
+            right:     'ad-right'
+        };
+
+        var zones = cfg.adsterra || {};
+        Object.keys(slotMap).forEach(function (key) {
+            var zone = zones[key];
+            if (!zone || !zone.src || !zone.containerId) return;
+
+            var slot = document.getElementById(slotMap[key]);
+            if (!slot) return;
+
+            var container = document.createElement('div');
+            container.id = zone.containerId;
+            slot.appendChild(container);
+
+            var script = document.createElement('script');
+            script.async = true;
+            script.setAttribute('data-cfasync', 'false');
+            script.src = zone.src;
+            slot.appendChild(script);
+
+            slot.classList.add('ad-loaded');
+        });
+
+        trackEvent('ads_loaded', { provider: cfg.provider });
+    }
+
     // --- Init ---
     populateStates();
     applyCurrencyMask(valorFipeInput);
+    loadAds();
 
 })();
