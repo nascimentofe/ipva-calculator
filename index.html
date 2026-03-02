@@ -186,29 +186,28 @@
                 </header>
 
                 <form id="ipva-form" class="calculator-form">
-                    <div class="form-row form-row-2col">
-                        <div class="form-group">
-                            <label for="estado">Estado</label>
-                            <select id="estado" required>
-                                <option value="">Selecione seu estado</option>
-                            </select>
-                            <span class="aliquota-info" id="aliquota-info"></span>
-                        </div>
-                        <div class="form-group">
-                            <label for="peso-veiculo">Peso (kg) <span class="optional">opcional</span></label>
-                            <input type="number" id="peso-veiculo" placeholder="Ex: 1200" min="0" max="50000" step="1">
-                        </div>
+                    <div class="form-group">
+                        <label for="estado">Estado</label>
+                        <select id="estado" required>
+                            <option value="">Selecione seu estado</option>
+                        </select>
+                        <span class="aliquota-info" id="aliquota-info"></span>
                     </div>
 
-                    <!-- FIPE Lookup -->
-                    <div class="fipe-lookup" id="fipe-lookup">
-                        <div class="fipe-header">
-                            <span class="fipe-label">Consultar Tabela FIPE</span>
-                            <button type="button" class="fipe-toggle" id="fipe-toggle-manual">Digitar valor manualmente</button>
-                        </div>
-                        <div class="form-row form-row-2col">
+                    <div class="form-group">
+                        <label for="valor-fipe">Valor do veículo (R$)</label>
+                        <input type="text" id="valor-fipe" placeholder="Ex: 80.000,00" required inputmode="numeric" autocomplete="off">
+                    </div>
+
+                    <!-- FIPE Lookup: expandable -->
+                    <details class="fipe-details" id="fipe-details">
+                        <summary class="fipe-summary">
+                            <span class="fipe-summary-icon">🔍</span>
+                            Não sabe o valor? Consulte a Tabela FIPE
+                        </summary>
+                        <div class="fipe-body">
                             <div class="form-group">
-                                <label for="fipe-tipo">Tipo</label>
+                                <label for="fipe-tipo">Tipo de veículo</label>
                                 <select id="fipe-tipo">
                                     <option value="cars">Carros</option>
                                     <option value="motorcycles">Motos</option>
@@ -218,11 +217,9 @@
                             <div class="form-group">
                                 <label for="fipe-marca">Marca</label>
                                 <select id="fipe-marca" disabled>
-                                    <option value="">Carregando...</option>
+                                    <option value="">Selecione o tipo</option>
                                 </select>
                             </div>
-                        </div>
-                        <div class="form-row form-row-2col">
                             <div class="form-group">
                                 <label for="fipe-modelo">Modelo</label>
                                 <select id="fipe-modelo" disabled>
@@ -235,28 +232,24 @@
                                     <option value="">Selecione o modelo</option>
                                 </select>
                             </div>
+                            <div class="fipe-result hidden" id="fipe-result">
+                                <span class="fipe-result-check">✓</span>
+                                <div class="fipe-result-info">
+                                    <span class="fipe-result-value" id="fipe-valor">R$ 0,00</span>
+                                    <span class="fipe-result-ref" id="fipe-ref"></span>
+                                </div>
+                            </div>
                         </div>
-                        <div class="fipe-result hidden" id="fipe-result">
-                            <span class="fipe-result-label">Valor FIPE</span>
-                            <span class="fipe-result-value" id="fipe-valor">R$ 0,00</span>
-                            <span class="fipe-result-ref" id="fipe-ref"></span>
-                        </div>
-                    </div>
+                    </details>
 
-                    <!-- Manual Input (hidden by default) -->
-                    <div class="manual-input hidden" id="manual-input">
-                        <div class="fipe-header">
-                            <span class="fipe-label">Valor do Veículo</span>
-                            <button type="button" class="fipe-toggle" id="fipe-toggle-auto">Consultar pela Tabela FIPE</button>
+                    <details class="peso-details">
+                        <summary class="peso-summary">Informar peso do veículo <span class="optional">opcional</span></summary>
+                        <div class="form-group" style="margin-top: 12px;">
+                            <label for="peso-veiculo">Peso (kg)</label>
+                            <input type="number" id="peso-veiculo" placeholder="Ex: 1200" min="0" max="50000" step="1">
+                            <span class="input-hint">Veículos mais leves pagam menos no novo modelo</span>
                         </div>
-                        <div class="form-group">
-                            <label for="valor-fipe">Valor FIPE (R$)</label>
-                            <input type="text" id="valor-fipe" placeholder="Ex: 80.000,00" inputmode="numeric">
-                            <span class="input-hint">Consulte na <a href="https://veiculos.fipe.org.br/" target="_blank" rel="noopener">Tabela FIPE</a></span>
-                        </div>
-                    </div>
-
-                    <input type="hidden" id="valor-fipe-hidden" value="0">
+                    </details>
 
                     <button type="submit" class="btn-calcular" id="btn-calcular">
                         <span class="btn-text">Calcular Economia</span>
