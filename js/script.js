@@ -451,14 +451,27 @@
         trackEvent('recalculate_clicked', {});
     });
 
+    function buildShareUrl(uf, valor, peso) {
+        var params = new URLSearchParams();
+        params.set('uf', uf);
+        params.set('v', Math.round(valor * 100));
+        if (peso > 0) params.set('p', peso);
+        return window.location.origin + window.location.pathname + '?' + params.toString();
+    }
+
     btnCompartilhar.addEventListener('click', function () {
+        var uf = estadoSelect.value;
+        var valor = parseCurrency(valorFipeInput.value);
+        var peso = parseInt(pesoInput.value, 10) || 0;
+        var shareUrl = buildShareUrl(uf, valor, peso);
+
         var shareText = 'Calculei minha economia com a PEC do IPVA!\n' +
             'Economia anual: ' + document.getElementById('economia-anual').textContent + '\n' +
             'Economia em 5 anos: ' + document.getElementById('economia-5anos').textContent + '\n' +
-            'Calcule a sua: https://ipva.fsncompany.com.br';
+            'Calcule a sua: ' + shareUrl;
 
         if (navigator.share) {
-            navigator.share({ title: 'Calculadora do Novo IPVA', text: shareText, url: 'https://ipva.fsncompany.com.br' }).catch(function () {});
+            navigator.share({ title: 'Calculadora do Novo IPVA', text: shareText, url: shareUrl }).catch(function () {});
         } else {
             var btn = this;
             navigator.clipboard.writeText(shareText).then(function () {
@@ -467,7 +480,7 @@
                 setTimeout(function () { btn.textContent = orig; }, 2000);
             }).catch(function () {});
         }
-        trackEvent('share_clicked', { method: navigator.share ? 'native' : 'clipboard' });
+        trackEvent('share_clicked', { method: navigator.share ? 'native' : 'clipboard', url: shareUrl });
     });
 
     document.querySelectorAll('.faq-item summary').forEach(function (s) {
@@ -540,9 +553,39 @@
         trackEvent('ads_loaded', { provider: cfg.provider });
     }
 
+    // --- Load from shared URL ---
+    function loadFromUrl() {
+        var params = new URLSearchParams(window.location.search);
+        var uf = params.get('uf');
+        var vCents = params.get('v');
+        if (!uf || !vCents || !ALIQUOTAS[uf]) return;
+
+        var valor = parseInt(vCents, 10) / 100;
+        if (valor <= 0) return;
+
+        estadoSelect.value = uf;
+        aliquotaInfo.textContent = 'Alíquota atual: ' + ALIQUOTAS[uf].aliquota + '% (' + ALIQUOTAS[uf].nome + ')';
+
+        valorFipeInput.value = formatAsCurrencyString(valor);
+        valorFipeInput.dispatchEvent(new Event('input', { bubbles: true }));
+
+        var peso = parseInt(params.get('p'), 10) || 0;
+        if (peso > 0) {
+            pesoInput.value = peso;
+            if (pesoDetails && !pesoDetails.open) pesoDetails.open = true;
+        }
+
+        var result = calculate(uf, valor, peso);
+        displayResults(result);
+
+        history.replaceState(null, '', window.location.pathname);
+        trackEvent('shared_link_loaded', { state: uf, value: valor, weight: peso });
+    }
+
     // --- Init ---
     populateStates();
     applyCurrencyMask(valorFipeInput);
+    loadFromUrl();
     loadAds();
 
 })();
