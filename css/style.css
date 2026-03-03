@@ -55,26 +55,36 @@ body {
 
 .ad-slot.ad-loaded {
     display: flex;
-    background: #f8fafc;
-    border-radius: var(--radius);
+    flex-direction: column;
+    background: transparent;
+    margin: 8px auto;
+    max-width: 100%;
 }
 
-.ad-top, .ad-bottom {
+.ad-top.ad-loaded {
+    max-width: 728px;
+    min-height: 50px;
+}
+
+.ad-bottom.ad-loaded {
+    max-width: 320px;
+    min-height: 50px;
+    margin-bottom: 0;
+}
+
+.ad-in-article.ad-loaded {
+    margin: 20px auto;
     width: 100%;
-    min-height: 60px;
-    max-height: 100px;
 }
 
-.ad-placeholder {
-    color: var(--text-light);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+.ad-after-faq.ad-loaded {
+    max-width: 300px;
+    min-height: 250px;
+    margin: 24px auto;
 }
 
-.ad-placeholder-vertical {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
+.ad-slot.ad-loaded iframe {
+    max-width: 100%;
 }
 
 /* ===========================
@@ -820,16 +830,6 @@ body {
 /* ===========================
    Ad In-Article
    =========================== */
-.ad-in-article {
-    margin: 24px 0;
-    min-height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f8fafc;
-    border-radius: var(--radius);
-}
-
 .ad-in-article > div { width: 100%; }
 
 /* ===========================
@@ -1181,7 +1181,7 @@ body {
         max-width: 900px;
     }
 
-    .ad-top, .ad-bottom {
+    .ad-top.ad-loaded {
         min-height: 90px;
     }
 }
